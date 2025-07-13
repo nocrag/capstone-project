@@ -1,0 +1,35 @@
+﻿@model MJRecords.Model.ConfirmDenyViewModel
+@{
+    ViewData["Title"] = "Confirm Deny";
+}
+
+<h3>Deny Purchase Order Item</h3>
+
+<p class="mb-3">You're about to deny the following item:</p>
+
+<div class="border p-3 rounded mb-4">
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p><strong>Quantity:</strong> @Model.Quantity</p>
+    <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+</div>
+
+<form asp-action="ConfirmDeny" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="PurchaseOrderId" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="DenialReason" class="form-label"></label>
+        <textarea asp-for="DenialReason" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="DenialReason" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" name="RecordVersionBase64" value="@Model.RecordVersionBase64" />
+
+
+    <button type="submit" class="btn btn-danger">Confirm Deny</button>
+    <a asp-action="Details" asp-route-id="@Model.PurchaseOrderId" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+

@@ -1,0 +1,99 @@
+﻿@model MJRecords.Web.Models.EmployeeSearchVM
+@using MJRecords.Model
+@{
+    ViewData["Title"] = "Index";
+    LoginOutputDTO? loggedInUser = @Context.Session.GetObject<LoginOutputDTO>("loggedInUser");
+}
+
+<h2>Employee Search</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index" method="post">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-dark">Search Parameters</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="text-dark" asp-for="empSearchParms.LastName" class="control-label">Last Name</label>
+                        <input asp-for="empSearchParms.LastName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="text-dark" asp-for="empSearchParms.EmployeeId" class="control-label">Employee ID</label>
+                        <input asp-for="empSearchParms.EmployeeId" class="form-control" />
+                    </div>
+                    <!-- Add more search parameters as needed -->
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button type="button" id="clearButton" class="btn btn-secondary">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-dark">Search Results</h4>
+            </div>
+            <div class="card-body">
+                @if (Model.empSearchResult != null && Model.empSearchResult.Any())
+                {
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var employee in Model.empSearchResult)
+                            {
+                                <tr>
+                                    <td>@employee.LastName,  @employee.FirstName</td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info btn-sm">Details</a>
+                                        @if (!loggedInUser.Role.Equals("Regular Employee") || !loggedInUser.Role.Equals("Regular Supervisor"))
+                                        {
+                                            <a asp-action="Edit" asp-controller="Employee" asp-route-id="@employee.Id" class="btn btn-info btn-sm">Edit</a>
+                                        }
+                                        @* else
+                                        {
+                                            <a asp-action="EditPersonalInfo" asp-controller="Employee" asp-route-id="@employee.Id" class="btn btn-info btn-sm">Details</a>
+                                        } *@
+                                       
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else if (Model.empSearchResult != null) // Search performed but no results
+                {
+                    <div class="alert alert-info">
+                        No employees found matching the search criteria.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-secondary">
+                        Use the search form to find employees.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+       document.getElementById('clearButton').addEventListener('click', function() {
+        // Get all form input elements but exclude the request verification token
+        const inputs = document.querySelectorAll('form input:not([name="__RequestVerificationToken"]), form select, form textarea');
+
+        // Clear each input
+        inputs.forEach(input => {
+            input.value = '';
+        });
+    });
+</script>

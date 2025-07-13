@@ -1,0 +1,30 @@
+﻿@model MJRecords.Model.LoginDTO
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-sm" style="width: 300px;">
+        <img src="~/images/mj-logo-black-transparent.png" alt="Company Logo" class="img-fluid mx-auto d-block" style="max-width: 200px;" />
+        <h4 class="text-center mb-4 text-dark" style="color: #212529 !important;">Login</h4>
+
+
+        <form asp-action="Index" method="post">
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label text-dark">Username</label>
+                <input asp-for="Username" type="text" class="form-control" placeholder="Enter username" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label text-dark">Password</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter Password" />
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+    </div>
+</div>

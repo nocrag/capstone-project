@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MJRecords.Model.DepartmentDTO>
+@using MJRecords.Model
+@using MJRecords.Types
+
+@{
+    ViewData["Title"] = "Departments Page";
+    LoginOutputDTO? loggedInUser = @Context.Session.GetObject<LoginOutputDTO>("loggedInUser");
+}
+
+<h1>Departments Page</h1>
+
+<p>
+     @if(
+        loggedInUser.Role == AccessLevels.HREmployee.GetDescription() ||
+        loggedInUser.Role == AccessLevels.HRSupervisor.GetDescription() ||
+        loggedInUser.Role == AccessLevels.CEO.GetDescription())
+    {
+        <a class="btn btn-primary mb-2 mt-2" asp-action="Create">Create New Department</a>
+    }
+</p>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvocationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvocationDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) 
+                @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
+                @* @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

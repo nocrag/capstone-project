@@ -1,0 +1,42 @@
+﻿@using MJRecords.Model
+
+
+@{
+    ViewData["Title"] = "Home Page - Index";
+    var loggedInUser = Context.Session.GetObject<LoginOutputDTO>("loggedInUser");
+}
+
+<div class="d-flex flex-column align-items-center vh-100 mt-5">
+
+    <div class="card p-4 shadow-lg text-center" style="width: 500px; background-color: #1e1e1e; color: #e0e0e0;">
+        @if (loggedInUser != null)
+        {
+            <img src="~/images/mj-logo-white-transparent.png"
+                 alt="Company Logo"
+                 class="img-fluid mx-auto d-block mb-4"
+                 style="max-width: 200px;" />
+
+            <h4>Welcome @loggedInUser.FirstName @loggedInUser.MiddleInitial @loggedInUser.LastName</h4>
+            <h4>User ID: @loggedInUser.Id</h4>
+            <h4>Role: @loggedInUser.Role</h4>
+            @* <h4>@loggedInUser.Token</h4> *@
+
+            @if (loggedInUser.Role.Contains("Supervisor") || loggedInUser.Role.Contains("CEO"))
+            {
+                <a asp-controller="Dashboard" asp-action="SupervisorDashboard" class="btn btn-primary mt-3">
+                    <i class="bi bi-bar-chart me-1"></i>Supervisor Dashboard
+                </a>
+
+                <a asp-controller="Dashboard" asp-action="EmployeeDashboard" class="btn btn-primary mt-3">
+                    <i class="bi bi-bar-chart me-1"></i>Employee Dashboard
+                </a>
+
+            } else
+            {
+                <a asp-controller="Dashboard" asp-action="EmployeeDashboard" class="btn btn-primary mt-3">
+                    <i class="bi bi-bar-chart me-1"></i>Employee Dashboard
+                </a>
+            }
+        } 
+    </div>
+</div>

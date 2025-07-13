@@ -1,0 +1,79 @@
+﻿@model MJRecords.Model.POItemEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<h2>Edit Item in Purchase Order @Model.PurchaseOrderId</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+@if (ViewBag.ConcurrencyError != null)
+{
+    <div class="alert alert-warning">
+        @ViewBag.ConcurrencyError
+    </div>
+}
+
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ItemId" />
+    <input type="hidden" asp-for="PurchaseOrderId" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Quantity" class="form-label"></label>
+        <input asp-for="Quantity" type="number" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" type="number" step="0.01" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Justification" class="form-label"></label>
+        <textarea asp-for="Justification" class="form-control"></textarea>
+        <span asp-validation-for="Justification" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PurchaseLocation" class="form-label"></label>
+        <input asp-for="PurchaseLocation" class="form-control" />
+        <span asp-validation-for="PurchaseLocation" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3" style="display:none;">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-control">
+            <option value="0">Pending</option>
+            <option value="1">Approved</option>
+            <option value="2">Denied</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" name="RecordVersion" value="@Convert.ToBase64String(Model.RecordVersion)" />
+
+
+    <button type="submit" class="btn btn-primary">Update Item</button>
+    <a asp-action="Details" asp-route-id="@Model.PurchaseOrderId" class="btn btn-secondary">Cancel</a>
+</form>

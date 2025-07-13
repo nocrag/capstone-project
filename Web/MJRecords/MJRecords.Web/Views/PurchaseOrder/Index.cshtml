@@ -1,0 +1,102 @@
+﻿@using System.Globalization
+@model MJRecords.Model.ViewModels.POSearchViewModel
+
+
+
+<a asp-controller="PurchaseOrder" asp-action="Create" class="btn btn-primary mb-2 mt-3">
+    Create New Purchase Order
+</a>
+<h2 class="mb-4 mt-4">Purchase Orders</h2>
+
+
+<form asp-action="Index" method="get" class="row gx-2 align-items-end mb-4">
+
+    <div class="col-md-3">
+        <label asp-for="Criteria.PurchaseOrderId" class="form-label">PO Number</label>
+        <input asp-for="Criteria.PurchaseOrderId" type="number" class="form-control" placeholder="e.g. 00000042" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Criteria.EmployeeName" class="form-label">Employee Name (full or partial)</label>
+        <input asp-for="Criteria.EmployeeName" type="text" class="form-control" placeholder="Enter name" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Criteria.StartDate" class="form-label">Start Date</label>
+        <input asp-for="Criteria.StartDate" type="date" class="form-control" 
+        placeholder="mm/dd/yyyy"
+               value="@(Model.Criteria.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Criteria.EndDate" class="form-label">End Date</label>
+        <input asp-for="Criteria.EndDate" type="date" class="form-control" placeholder="mm/dd/yyyy"
+               value="@(Model.Criteria.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
+    </div>
+
+    <div class="col-md-3 mt-2">
+        <label asp-for="Criteria.Status" class="form-label">Status</label>
+        <select asp-for="Criteria.Status" class="form-control">
+            <option value="">All</option>
+            <option value="0">Pending</option>
+            <option value="1">Under Review</option>
+            <option value="2">Closed</option>
+        </select>
+    </div>
+
+    
+
+    <div class="col-md-9 d-flex gap-2">
+        <button type="submit" class="btn btn-primary flex-grow-1">Search</button>
+        <a asp-action="Index" class="btn btn-secondary flex-grow-1">Reset</a>
+    </div>
+</form>
+
+
+
+<span class="text-danger d-block mb-2" style="min-height: 1.25em;">
+    @ViewBag.EndDateError
+</span>
+
+
+
+@if (Model.Results.Any())
+{
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>PO Number</th>
+                <th>Creation Date</th>
+                <th>Employee Name</th>
+                <th>Status</th>
+                <th class="text-end">Subtotal</th>
+                <th class="text-end">Tax</th>
+                <th class="text-end">Grand Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var po in Model.Results)
+            {
+                <tr>
+                    <td>@po.PurchaseOrderId.ToString()</td>
+                    <td>@po.DateCreated.ToString("yyyy-MM-dd")</td>
+                    <td>@po.EmployeeName</td>
+                    <td>@po.Status.ToString().Replace("UnderReview", "Under Review")</td>
+                    <td class="text-end">@po.Subtotal.ToString("C")</td>
+                    <td class="text-end">@po.TaxTotal.ToString("C")</td>
+                    <td class="text-end">@po.GrandTotal.ToString("C")</td>
+                    <td>
+                        <a asp-action = "Details" asp-route-id = "@po.PurchaseOrderId" class= "btn btn-sm btn-primary" >
+                        View Details
+                        </a >
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">No purchase orders found.</div>
+}
+

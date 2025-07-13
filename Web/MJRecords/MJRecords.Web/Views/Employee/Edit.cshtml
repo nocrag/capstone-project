@@ -1,0 +1,323 @@
+﻿@model MJRecords.Web.Models.EmployeeUpdateVM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Employee: @Model.Employee.FirstName @Model.Employee.LastName | ID: @Model.Employee.Id</h4>
+<hr />
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.Employee.Errors.Count > 0)
+            {
+                <div class="text-danger">
+                    <ul>
+                        @foreach (var e in Model.Employee.Errors
+                       .Where(err => err.ErrorType == MJRecords.Types.ErrorType.Business))
+                        {
+                            <li>@e.Description</li>
+                        }
+                    </ul>
+                </div>
+            }
+            <input asp-for="Employee.Id" type="hidden" />
+
+            <!-- Navigation tabs for distinct areas -->
+            <ul class="nav nav-tabs" id="employeeFormTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">Personal Information</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false">Job Information</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab" aria-controls="status" aria-selected="false">Employment Status</button>
+                </li>
+            </ul>
+
+            <div class="tab-content p-3 border border-top-0 mb-4" id="employeeFormTabContent">
+                <!-- PERSONAL INFORMATION SECTION -->
+                <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                    <h5 class="mb-3">Personal Information</h5>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Employee.Password" class="control-label"></label>
+                        <input type="password" asp-for="Employee.Password" class="form-control" placeholder="Min 6 chars, 1 uppercase, 1 number, 1 special char" />
+                        <span asp-validation-for="Employee.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.FirstName" class="control-label"></label>
+                                <input asp-for="Employee.FirstName" class="form-control" />
+                                <span asp-validation-for="Employee.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.LastName" class="control-label"></label>
+                                <input asp-for="Employee.LastName" class="form-control" />
+                                <span asp-validation-for="Employee.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.MiddleInitial" class="control-label"></label>
+                                <input asp-for="Employee.MiddleInitial" class="form-control" maxlength="1" />
+                                <span asp-validation-for="Employee.MiddleInitial" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Employee.StreetAddress" class="control-label"></label>
+                        <input asp-for="Employee.StreetAddress" class="form-control" />
+                        <span asp-validation-for="Employee.StreetAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.City" class="control-label"></label>
+                                <input asp-for="Employee.City" class="form-control" />
+                                <span asp-validation-for="Employee.City" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.PostalCode" class="control-label"></label>
+                                <input asp-for="Employee.PostalCode" class="form-control" placeholder="A1A 1A1" />
+                                <span asp-validation-for="Employee.PostalCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.Province" class="control-label"></label>
+                                <input asp-for="Employee.Province" class="form-control"/>
+                                <span asp-validation-for="Employee.Province" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.DateOfBirth" class="control-label"></label>
+                                <input asp-for="Employee.DateOfBirth" class="form-control" type="date" />
+                                <span asp-validation-for="Employee.DateOfBirth" class="text-danger"></span>
+                                <small class="text-muted">Must be at least 16 years old</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.CellPhone" class="control-label"></label>
+                                <input asp-for="Employee.CellPhone" class="form-control" placeholder="(123) 456-7890" />
+                                <span asp-validation-for="Employee.CellPhone" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JOB INFORMATION SECTION -->
+                <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
+                    <h5 class="mb-3">Job Information</h5>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.SIN" class="control-label">Social Insurance Number</label>
+                                <input asp-for="Employee.SIN" class="form-control" placeholder="123-456-789" />
+                                <span asp-validation-for="Employee.SIN" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.SeniorityDate" class="control-label"></label>
+                                <input asp-for="Employee.SeniorityDate" class="form-control" type="date" />
+                                <span asp-validation-for="Employee.SeniorityDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.DepartmentId" class="control-label">Department</label>
+                                <select id="DepartmentList" asp-for="Employee.DepartmentId" asp-items="Model.Departments" class="form-select">
+                                    <option disabled selected>--- SELECT DEPARTMENT ---</option>
+                                </select>
+                                <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.SupervisorId" class="control-label">Supervisor</label>
+                                <select id="SupervisorsList" asp-for="Employee.SupervisorId" data-selected="@Model.Employee?.SupervisorId" class="form-select">
+                                    <option disabled selected>--- SELECT SUPERVISOR ---</option>
+                                </select>
+                                <span asp-validation-for="Employee.SupervisorId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.JobAssignmentId" class="control-label">Job Assignment</label>
+                                <select asp-for="Employee.JobAssignmentId" asp-items="Model.Jobs" class="form-select">
+                                    <option disabled selected>--- SELECT JOB ---</option>
+                                </select>
+                                <span asp-validation-for="Employee.JobAssignmentId" class="text-danger"></span>
+                            </div>
+                        </div>
+                       @*  <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.JobStartDate" class="control-label"></label>
+                                <input asp-for="Employee.JobStartDate" class="form-control" type="date" />
+                                <span asp-validation-for="Employee.JobStartDate" class="text-danger"></span>
+                                <small class="text-muted">Will be reset if job assignment changes</small>
+                            </div>
+                        </div> *@
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.EmailAddress" class="control-label"></label>
+                                <input asp-for="Employee.EmailAddress" class="form-control" placeholder="example@company.com" />
+                                <span asp-validation-for="Employee.EmailAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Employee.WorkPhone" class="control-label"></label>
+                                <input asp-for="Employee.WorkPhone" class="form-control" placeholder="(123) 456-7890" />
+                                <span asp-validation-for="Employee.WorkPhone" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Employee.OfficeLocation" class="control-label"></label>
+                        <input asp-for="Employee.OfficeLocation" class="form-control" />
+                        <span asp-validation-for="Employee.OfficeLocation" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- EMPLOYMENT STATUS SECTION -->
+                <div class="tab-pane fade" id="status" role="tabpanel" aria-labelledby="status-tab">
+                    <h5 class="mb-3">Employment Status</h5>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Employee.Status" class="control-label">Status</label>
+                        <select asp-for="Employee.Status" asp-items="Model.Statuses" class="form-select" id="employmentStatusSelect">
+                            <option disabled selected>--- SELECT STATUS ---</option>
+                        </select>
+                        <span asp-validation-for="Employee.Status" class="text-danger"></span>
+                    </div>
+
+                  @*   <div class="form-group mb-3 d-none" id="terminationDateGroup">
+                        <label asp-for="Employee.TerminationDate" class="control-label">Termination Date</label>
+                        <input asp-for="Employee.TerminationDate" class="form-control" type="date" />
+                        <span asp-validation-for="Employee.TerminationDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3 d-none" id="retirementDateGroup">
+                        <label asp-for="Employee.RetirementDate" class="control-label">Retirement Date</label>
+                        <input asp-for="Employee.RetirementDate" class="form-control" type="date" />
+                        <span asp-validation-for="Employee.RetirementDate" class="text-danger"></span>
+                        <small class="text-muted">Employee must be at least 65 years old to retire</small>
+                    </div> *@
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Supervisor selection based on department
+        const getSupervisorsUrl = '@Url.Action("GetAvailableSupervisors", "Employee")';
+        const departmentDropdown = document.getElementById('DepartmentList');
+        const supervisorsList = document.getElementById('SupervisorsList');
+
+        function populateSupervisors(departmentId, selectedSupervisorId = null) {
+            supervisorsList.innerHTML = '<option selected disabled>--- SELECT SUPERVISOR ---</option>';
+
+            if (departmentId) {
+                fetch(`${getSupervisorsUrl}?deptId=${departmentId}`)
+                    .then(resp => resp.json())
+                    .then(data => {
+                        data.forEach(supervisor => {
+                            const option = document.createElement('option');
+                            option.value = supervisor.id;
+                            option.text = supervisor.fullName;
+
+                            // Re-select the supervisor if applicable
+                            if (selectedSupervisorId && option.value == selectedSupervisorId) {
+                                option.selected = true;
+                            }
+
+                            supervisorsList.appendChild(option);
+                        });
+                    })
+                    .catch(err => console.error(`Error fetching supervisors:`, err));
+            }
+        }
+
+        // On department dropdown change
+        departmentDropdown.addEventListener('change', e => {
+            populateSupervisors(e.target.value);
+        });
+
+        // On page load if there are model validation errors
+        window.addEventListener('DOMContentLoaded', () => {
+            const selectedDeptId = departmentDropdown.value;
+            const selectedSupervisorId = supervisorsList.getAttribute('data-selected');
+
+            if (selectedDeptId) {
+                populateSupervisors(selectedDeptId, selectedSupervisorId);
+            }
+
+            // Employment status handling
+            // const statusSelect = document.getElementById('employmentStatusSelect');
+            // const terminationDateGroup = document.getElementById('terminationDateGroup');
+            // const retirementDateGroup = document.getElementById('retirementDateGroup');
+
+            // statusSelect.addEventListener('change', function() {
+            //     terminationDateGroup.classList.add('d-none');
+            //     retirementDateGroup.classList.add('d-none');
+
+            //     if (this.value === 'Terminated') {
+            //         terminationDateGroup.classList.remove('d-none');
+            //     } else if (this.value === 'Retired') {
+            //         retirementDateGroup.classList.remove('d-none');
+            //     }
+            // });
+
+            // Trigger change event to handle initial state
+            // statusSelect.dispatchEvent(new Event('change'));
+        });
+    </script>
+}

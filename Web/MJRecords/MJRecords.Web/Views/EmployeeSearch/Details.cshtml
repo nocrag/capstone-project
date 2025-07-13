@@ -1,0 +1,78 @@
+﻿@model MJRecords.Model.EmployeeSearchResultDetailedDTO
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Employee Details</h2>
+                <div>
+                    <a asp-action="Index" class="btn btn-light">Back to List</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h4 class="text-dark">Personal Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FirstName)</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MiddleInitial)</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.MiddleInitial)</dd>
+
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.LastName)</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.LastName)</dd>
+
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.HomeAddress)</dt>
+                                <dd class="col-sm-8">@Html.DisplayFor(model => model.HomeAddress)</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h4 class="text-dark">Contact Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.WorkPhone)</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(Model.WorkPhone))
+                                    {
+                                        <a href="tel:@Model.WorkPhone" class="text-dark">@Html.DisplayFor(model => model.WorkPhone)</a>
+                                    }
+                                </dd>
+
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CellPhone)</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(Model.CellPhone))
+                                    {
+                                        <a href="tel:@Model.CellPhone" class="text-dark">@Html.DisplayFor(model => model.CellPhone)</a>
+                                    }
+                                </dd>
+
+                                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.WorkEmail)</dt>
+                                <dd class="col-sm-8">
+                                    @if (!string.IsNullOrEmpty(Model.WorkEmail))
+                                    {
+                                        <a href="mailto:@Model.WorkEmail" class="text-dark">@Html.DisplayFor(model => model.WorkEmail)</a>
+                                    }
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model MJRecords.Model.SupervisorPOItemUpdateDto
+
+@{
+    ViewData["Title"] = "Modify item as Supervisor";
+}
+
+<h2>Edit PO Item (Supervisor)</h2>
+
+<form asp-action="EditBySupervisor" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="RecordVersionBase64" value="@Convert.ToBase64String(Model.RecordVersion)" />
+
+    <div class="form-group mt-2">
+        <label asp-for="Quantity"></label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="PurchaseLocation"></label>
+        <input asp-for="PurchaseLocation" class="form-control" />
+        <span asp-validation-for="PurchaseLocation" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="ModificationReason"></label>
+        <textarea asp-for="ModificationReason" class="form-control"></textarea>
+        <span asp-validation-for="ModificationReason" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-4">Save Changes</button>
+    <a asp-action="Details" asp-controller="PurchaseOrder" asp-route-id="@ViewBag.PurchaseOrderId" class="btn btn-secondary mr-2 mt-4">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

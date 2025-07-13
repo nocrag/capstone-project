@@ -1,0 +1,87 @@
+﻿@model IEnumerable<MJRecords.Model.EmployeeListDTO>
+@using MJRecords.Model
+@using MJRecords.Types
+
+@{
+    ViewData["Title"] = "Employees Page";
+    LoginOutputDTO? loggedInUser = @Context.Session.GetObject<LoginOutputDTO>("loggedInUser");
+}
+
+<h1>Employees Page</h1>
+
+<p>
+    @if(
+      loggedInUser.Role == AccessLevels.HREmployee.GetDescription() ||
+      loggedInUser.Role == AccessLevels.HRSupervisor.GetDescription() ||
+      loggedInUser.Role == AccessLevels.CEO.GetDescription())
+    {
+        <a class="btn btn-primary mb-2 mt-2" asp-action="Create">Create New Employee</a>
+    }
+</p>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th> 
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Supervisor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Job)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeLocation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supervisor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Job)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfficeLocation)
+                </td>
+
+                <td>
+                    @if (!loggedInUser.Role.Equals("Regular Employee"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    }else
+                    {
+                        @Html.ActionLink("Edit", "EditPersonalInfo", new { id = item.Id })
+                    }
+                    @* @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) *@
+                @* @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }) *@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

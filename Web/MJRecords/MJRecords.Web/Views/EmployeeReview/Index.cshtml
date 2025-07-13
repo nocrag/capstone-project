@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MJRecords.Model.EmployeeReviewListDTO>
+
+@{
+    ViewData["Title"] = "Employees Review Page";
+}
+
+<h1>Employees Review Page</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeFName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeLName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupervisorFName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupervisorLName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearQuarter)
+            </th>
+            @* <th></th> *@
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeFName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeLName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupervisorFName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupervisorLName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewDate)
+            </td>
+                <td>
+                    Q @Html.DisplayFor(modelItem => item.YearQuarter) - @Html.DisplayFor(modelItem => item.ReviewDate.Year)
+                </td>
+          @*   <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td> *@
+        </tr>
+}
+    </tbody>
+</table>

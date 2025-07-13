@@ -1,0 +1,62 @@
+﻿@using MJRecords.Model
+@model MJRecords.Model.DashboardViewModel
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+<script>
+    const monthsJson = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyExpenses.Select(m => m.Month)));
+    const totalsJson = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyExpenses.Select(m => m.Total)));
+    const countsJson = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MonthlyExpenses.Select(m => m.POCount)));
+</script>
+<script src="~/js/supervisorGraph.js"></script>
+
+@{
+    ViewData["Title"] = "Supervisor Dashboard";
+    var loggedInUser = Context.Session.GetObject<LoginOutputDTO>("loggedInUser");
+}
+
+<div class="d-flex flex-column align-items-center vh-100 mt-5">
+
+    @if (Model.MonthlyExpenses != null && Model.MonthlyExpenses.Any())
+    {
+        <h2>Department Monthly PO Expenses and Counts</h2>
+
+        @* this is what calls the graph *@
+        <div id="supervisorGraph" style="width: 90vw; height: 60vh;"></div>
+
+    }
+    else
+    {
+        <div class="card p-4 shadow-lg text-center" style="width: 500px; background-color: #1e1e1e; color: #e0e0e0;">
+            @if (loggedInUser != null)
+            {
+                <img src="~/images/mj-logo-white-transparent.png"
+                     alt="Company Logo"
+                     class="img-fluid mx-auto d-block mb-4"
+                     style="max-width: 200px;" />
+
+                <h4>Welcome @loggedInUser.FirstName @loggedInUser.MiddleInitial @loggedInUser.LastName</h4>
+                <h4>User ID: @loggedInUser.Id</h4>
+                <h4>Role: @loggedInUser.Role</h4>
+                <h4>You have no data available for your dashboard.</h4>
+                @* <h4>@loggedInUser.Token</h4> *@
+            }
+        </div>
+    }
+
+    @if (Model.PendingReviewCount > 0)
+    {
+        <div class="alert alert-warning d-flex align-items-center mb-4 mt-4" role="alert" style="width: 600px;">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:">
+                <use xlink:href="#exclamation-triangle-fill" />
+            </svg>
+            <div>
+                You have @Model.PendingReviewCount purchase orders for reviewing.
+                <a href="@Url.Action("Index", "PurchaseOrder")" class="btn btn-sm btn-primary ms-3">View POs</a>
+            </div>
+        </div>
+    }
+
+</div>
