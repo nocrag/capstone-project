@@ -1,17 +1,27 @@
-# 🧾 Capstone Project – Purchase Order & HR Management System
+## 🙋‍♂️ About the App
 
-This is a full-stack enterprise application developed as part of my final Capstone project at NBCC. The system supports two main modules:
+This project was developed as part of my Capstone at NBCC. It consists of a full-stack enterprise system with two main modules:
 
 - **Purchase Order (PO) Management** – Developed by me
 - **Human Resources (HR) Module** – Developed by my teammate
 
-The project is designed to streamline internal workflows for submitting, approving, and managing purchase orders and employee records within a company.
+In addition to the web application, we also built a **native Android app** that consumes the same API. The mobile app allows users to:
+
+- Browse and view purchase orders by department
+- See detailed PO information
+- Interact with the backend via the same RESTful endpoints used by the web platform
+
+The goal was to demonstrate our ability to build a scalable system that supports multiple clients.
 
 ---
 
+I’m a full-stack developer with a background in both software engineering and UX/UI design. I enjoy creating practical, user-friendly systems that solve real-world problems — like this one!
+
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/yourprofile) or check out more of my work at [your-portfolio.com](https://your-portfolio.com).
+
 ## 🔧 Tech Stack
 
-- **Backend:** ASP.NET Core MVC, C#
+- **Backend:** ASP.NET Core MVC, C#, Android (Kotlin)
 - **Database:** SQL Server (with stored procedures)
 - **Frontend:** Razor Views, HTML/CSS
 - **Other Tools:** ADO.NET, Git, GitHub, Visual Studio
